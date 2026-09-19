@@ -1,0 +1,30 @@
+# Environment and secrets
+.env
+application.properties
+
+# Java / Maven
+target/
+*.class
+*.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Airflow
+airflow_505/logs/
+airflow_505/phase2_split/
+airflow_505/errors/
+
+
+# Temporary files
+*.log
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
