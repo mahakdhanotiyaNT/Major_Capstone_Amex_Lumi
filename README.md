@@ -774,7 +774,7 @@ JaCoCo is configured for coverage reporting.
 Current report:
 
 ```text
-test Coverage: 64%
+test Coverage: 87%
 ```
 
 Report location:
