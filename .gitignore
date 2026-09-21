@@ -16,9 +16,17 @@ __pycache__/
 *.py[cod]
 
 # Airflow
-airflow_505/logs/
-airflow_505/phase2_split/
-airflow_505/errors/
+airflow/airflow_505/logs/
+airflow/airflow_505/phase2_split/
+airflow/airflow_505/errors/
+airflow/airflow_505/plugins/
+airflow/airflow_505/pyscript/
+airflow/airflow_505/airflow.cfg
+airflow/airflow_505/airflow-webserver.pid
+airflow/airflow_505/webserver_config.py
+airflow/.env
+airflow/airflow_505/input/
+airflow/airflow_505/opt/
 
 
 # Temporary files
