@@ -186,9 +186,6 @@ public class IngestionService {
                     uploadPath
                             .resolve("phase2_split")
                             .resolve(executionId);
-            Files.createDirectories(
-                    splitOutputDirectory
-            );
             String format =
                     lowerCaseFileName.endsWith(".csv")
                             ? "csv"

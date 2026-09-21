@@ -42,12 +42,23 @@ def split_csv(spark, input_file, output_directory):
 def split_json(spark, input_file, output_directory):
     logger.info("Starting JSON file split")
 
-    df = spark.read.json(input_file)
+    df = spark.read.option("multiline", True).json(input_file)
 
     record_count = df.count()
 
     logger.info("Input file: %s", input_file)
     logger.info("Total records: %s", record_count)
+
+    file_size = os.path.getsize(input_file)
+    target_chunk_size = 1024 * 1024
+
+    partition_count = max(
+        1,
+        (file_size + target_chunk_size - 1)
+        // target_chunk_size
+    )
+
+    df = df.repartition(partition_count)
 
     def create_json_array(iterator):
         import json
@@ -56,7 +67,10 @@ def split_json(spark, input_file, output_directory):
 
         if records:
             yield json.dumps(
-                [record.asDict(recursive=True) for record in records]
+                [
+                    record.asDict(recursive=True)
+                    for record in records
+                ]
             )
 
     (
@@ -64,6 +78,18 @@ def split_json(spark, input_file, output_directory):
         .mapPartitions(create_json_array)
         .saveAsTextFile(output_directory)
     )
+
+    for file_name in os.listdir(output_directory):
+        if file_name.startswith("part-"):
+            old_path = os.path.join(
+                output_directory,
+                file_name
+            )
+            new_path = os.path.join(
+                output_directory,
+                file_name + ".json"
+            )
+            os.rename(old_path, new_path)
 
     logger.info("JSON file split completed successfully")
     logger.info("Output directory: %s", output_directory)
