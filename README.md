@@ -53,7 +53,7 @@ A Spring Boot API also provides employee retrieval endpoints with decryption of 
 - [Spring Boot Tests](#spring-boot-tests).
 - [Beam Tests](#beam-tests).
 - [JaCoCo](#jacoco).
-- [Running the Project](#running-the-project).
+- [How to Run the Project](#how-to-run-the-project)
 - [Example Control File](#example-control-file).
 - [Example Scenarios](#example-scenarios).
 - [Key Design Decisions](#key-design-decisions).
@@ -774,7 +774,7 @@ JaCoCo is configured for coverage reporting.
 Current report:
 
 ```text
-test Coverage: 87%
+test Coverage: 84%
 ```
 
 Report location:
@@ -785,43 +785,92 @@ target/site/jacoco/index.html
 
 ---
 
-# Running the Project
+# How to Run the Project
 
-## 1. Start Airflow
+## 1. Clone the Repository
 
-Start the project's Docker Compose based Airflow environment.
+```bash
+git clone <https://github.com/mahakdhanotiyaNT/Major_Capstone_Amex_Lumi.git>
+cd Major_Capstone_Amex_Lumi
+```
 
-Verify that the Airflow web interface is available.
+---
 
 ## 2. Start PostgreSQL
 
-Ensure PostgreSQL is running and the target database is available.
+Create the required database and employee table using the scripts provided in the `database` directory.
 
-Database:
+Verify the database connection before starting the application.
 
-```text
-amex_lumi
+---
+
+## 3. Start Airflow
+
+Navigate to the Airflow directory:
+
+```bash
+cd airflow
 ```
 
-## 3. Build Beam
+Start the Docker Compose environment:
 
-From the Beam project:
+```bash
+docker compose up -d
+```
+
+Verify the running containers:
+
+```bash
+docker ps
+```
+
+---
+
+## 4. Build Apache Beam Project
+
+Navigate to the Beam project:
+
+```bash
+cd beam-ingestion
+```
+
+Build the project using Maven:
 
 ```bash
 mvn clean package
 ```
 
-Place the generated Beam JAR in the location used by the Airflow ingestion task.
+The generated JAR will be available under:
 
-## 4. Start Spring Boot
+```text
+target/
+```
 
-Run the Spring Boot application from IntelliJ IDEA.
+The `target` directory is a build output and is excluded from Git using `.gitignore`.
 
-The API runs on:
+---
+
+## 5. Start Spring Boot Application
+
+Navigate to:
+
+```text
+amex-lumi-ingestion-api
+```
+
+Run:
+
+```bash
+mvn spring-boot:run
+```
+
+The application runs on:
 
 ```text
 http://localhost:8080
 ```
+
+---
 
 ## 5. Trigger Ingestion
 
